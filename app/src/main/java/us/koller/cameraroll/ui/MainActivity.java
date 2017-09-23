@@ -622,12 +622,15 @@ public class MainActivity extends ThemeableActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                SortUtil.sortAlbums(MainActivity.this, MediaProvider.getAlbums());
+                //SortUtil.sortAlbums(MainActivity.this, MediaProvider.getAlbums());
+                final ArrayList<Album> albums = MediaProvider.getAlbumsWithVirtualDirectories(MainActivity.this);
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        snackbar.dismiss();
+                        MainActivity.this.albums = albums;
+                        ((RecyclerViewAdapter) recyclerView.getAdapter()).setAlbums(albums);
                         recyclerView.getAdapter().notifyDataSetChanged();
+                        snackbar.dismiss();
                     }
                 });
             }
